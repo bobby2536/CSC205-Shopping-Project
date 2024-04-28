@@ -1,0 +1,13 @@
+package Login;
+
+public class LoginDriver {
+	
+	static LoginDatabase database = new LoginDatabase();
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		database.ConnectLoginDatabase("password");
+		database.CloseDatabase();
+	}
+
+}
