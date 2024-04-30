@@ -17,6 +17,7 @@ public class LoginPage {
 	private JFrame frame;
 	private JTextField usernameField;
 	private JPasswordField passwordField;
+	private LoginDatabase loginDatabase = new LoginDatabase();
 
 	/**
 	 * Launch the application.
@@ -39,6 +40,7 @@ public class LoginPage {
 	 */
 	public LoginPage() {
 		initialize();
+		loginDatabase.ConnectLoginDatabase("@PantsBobby25361337");
 	}
 
 	/**
@@ -80,6 +82,15 @@ public class LoginPage {
 		JButton loginButton = new JButton("Login");
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String username = usernameField.getText();
+				String password = String.valueOf(passwordField.getPassword());
+				if (loginDatabase.ValidUsernamePassword(username, password)) {
+					System.out.println("Login Successful");
+					System.out.println(loginDatabase.getUserType(username));
+				}
+				else {
+					System.out.println("Login Failed");
+				}
 			}
 		});
 		loginButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -89,7 +100,8 @@ public class LoginPage {
 		JButton resetButton = new JButton("Reset");
 		resetButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				usernameField.setText("");
+				passwordField.setText("");
 			}
 		});
 		resetButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -99,6 +111,7 @@ public class LoginPage {
 		JButton exitButton = new JButton("Exit");
 		exitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
 			}
 		});
 		exitButton.setFont(new Font("Tahoma", Font.PLAIN, 18));

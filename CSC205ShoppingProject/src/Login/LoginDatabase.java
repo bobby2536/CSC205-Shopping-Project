@@ -80,4 +80,75 @@ public class LoginDatabase {
 		}
 	}
 	
+	public boolean ValidUsernamePassword(String inputUsername, String inputPassword) {
+		try {
+			stmt = c.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from login;");
+			
+			while (rs.next()) {
+				int id = rs.getInt("id");
+				String username = rs.getString("username");
+				String password = rs.getString("password");
+				String type = rs.getString("type");
+				if (username.equals(inputUsername) && password.equals(inputPassword)) {
+					return true;
+				}
+			}
+			return false;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getClass().getName()+ ": " + e.getMessage());
+			System.exit(0);
+			return false;
+		}
+	}
+	
+	public boolean UsernameExists(String inputUsername) {
+		try {
+			stmt = c.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from login;");
+			
+			while (rs.next()) {
+				int id = rs.getInt("id");
+				String username = rs.getString("username");
+				String password = rs.getString("password");
+				String type = rs.getString("type");
+				if (username.equals(inputUsername)) {
+					return true;
+				}
+			}
+			return false;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getClass().getName()+ ": " + e.getMessage());
+			System.exit(0);
+			return false;
+		}
+	}
+	
+	public String getUserType(String inputUsername) {
+		try {
+			stmt = c.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from login;");
+			while (rs.next()) {
+				int id = rs.getInt("id");
+				String username = rs.getString("username");
+				String password = rs.getString("password");
+				String type = rs.getString("type");
+				if (username.equals(inputUsername)) {
+					return type;
+				}
+			}
+			return "Not Found";
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getClass().getName()+ ": " + e.getMessage());
+			System.exit(0);
+			return "Error";
+		}
+	}
+	
 }
