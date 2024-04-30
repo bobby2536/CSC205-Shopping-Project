@@ -27,7 +27,11 @@ public class LoginDatabase {
 			"ID SERIAL PRIMARY KEY," +
 			"USERNAME TEXT NOT NULL," +
 			"PASSWORD TEXT NOT NULL," +
-			"TYPE TEXT NOT NULL" +
+			"TYPE TEXT NOT NULL," +
+			"FIRSTNAME TEXT NOT NULL," +
+			"LASTNAME TEXT NOT NULL," +
+			"EMAIL TEXT NOT NULL," +
+			"ADDRESS TEXT NOT NULL" +
 			");";
 			stmt.executeUpdate(sql);
 			stmt.close();
@@ -53,16 +57,21 @@ public class LoginDatabase {
 		}
 	}
 	
-	public void AddLoginDatabase(String username, String password, String type) {
+	public void AddLoginDatabase(String username, String password, String type, String firstname, String lastname, String email, String address) {
 		if (type.equalsIgnoreCase("Manager") || type.equalsIgnoreCase("Employee") || type.equalsIgnoreCase("Customer")) {
 			try {
 				c.setAutoCommit(false);
 				stmt = c.createStatement();
-				String sql = "INSERT INTO LOGIN (USERNAME, PASSWORD, TYPE) "+
+				String sql = "INSERT INTO LOGIN (USERNAME, PASSWORD, TYPE, FIRSTNAME, LASTNAME, EMAIL, ADDRESS) "+
 					"VALUES (" + 
 					"'" + username + "'" + ',' +
 					"'" + password + "'" + ',' +
-					"'" + type + "'" + ");";
+					"'" + type + "'" + ',' +
+					"'" + firstname + "'" + ',' +
+					"'" + lastname + "'" + ',' +
+					"'" + email + "'" + ',' +
+					"'" + address + "'" +
+					");";
 				stmt.executeLargeUpdate(sql);
 				stmt.close();
 				c.commit();
@@ -86,10 +95,8 @@ public class LoginDatabase {
 			ResultSet rs = stmt.executeQuery("select * from login;");
 			
 			while (rs.next()) {
-				int id = rs.getInt("id");
 				String username = rs.getString("username");
 				String password = rs.getString("password");
-				String type = rs.getString("type");
 				if (username.equals(inputUsername) && password.equals(inputPassword)) {
 					return true;
 				}
@@ -110,10 +117,7 @@ public class LoginDatabase {
 			ResultSet rs = stmt.executeQuery("select * from login;");
 			
 			while (rs.next()) {
-				int id = rs.getInt("id");
 				String username = rs.getString("username");
-				String password = rs.getString("password");
-				String type = rs.getString("type");
 				if (username.equals(inputUsername)) {
 					return true;
 				}
@@ -133,9 +137,7 @@ public class LoginDatabase {
 			stmt = c.createStatement();
 			ResultSet rs = stmt.executeQuery("select * from login;");
 			while (rs.next()) {
-				int id = rs.getInt("id");
 				String username = rs.getString("username");
-				String password = rs.getString("password");
 				String type = rs.getString("type");
 				if (username.equals(inputUsername)) {
 					return type;
@@ -148,6 +150,21 @@ public class LoginDatabase {
 			System.out.println(e.getClass().getName()+ ": " + e.getMessage());
 			System.exit(0);
 			return "Error";
+		}
+	}
+	
+	public ResultSet exportData() {
+		try {
+			stmt = c.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from login;");
+			return rs;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getClass().getName()+ ": " + e.getMessage());
+			System.exit(0);
+			ResultSet data = null;
+			return data;
 		}
 	}
 	

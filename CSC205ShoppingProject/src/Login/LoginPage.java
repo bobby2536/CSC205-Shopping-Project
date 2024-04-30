@@ -1,5 +1,6 @@
 package Login;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -48,7 +49,7 @@ public class LoginPage {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 600, 450);
+		frame.setBounds(100, 100, 601, 480);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -73,11 +74,17 @@ public class LoginPage {
 		passwordField.setBounds(271, 211, 227, 30);
 		frame.getContentPane().add(passwordField);
 		
-		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 34));
-		lblPassword.setBounds(76, 211, 188, 30);
-		frame.getContentPane().add(lblPassword);
+		JLabel passwordLabel = new JLabel("Password");
+		passwordLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		passwordLabel.setFont(new Font("Tahoma", Font.PLAIN, 34));
+		passwordLabel.setBounds(76, 211, 188, 30);
+		frame.getContentPane().add(passwordLabel);
+		
+		JLabel messageLabel = new JLabel("");
+		messageLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		messageLabel.setBounds(147, 271, 302, 30);
+		frame.getContentPane().add(messageLabel);
 		
 		JButton loginButton = new JButton("Login");
 		loginButton.addActionListener(new ActionListener() {
@@ -87,14 +94,18 @@ public class LoginPage {
 				if (loginDatabase.ValidUsernamePassword(username, password)) {
 					System.out.println("Login Successful");
 					System.out.println(loginDatabase.getUserType(username));
+					messageLabel.setForeground(Color.green);
+					messageLabel.setText(loginDatabase.getUserType(username) + " Login Successful!");	
 				}
 				else {
 					System.out.println("Login Failed");
+					messageLabel.setForeground(Color.red);
+					messageLabel.setText("Login Unsuccessful!");	
 				}
 			}
 		});
 		loginButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		loginButton.setBounds(80, 292, 119, 30);
+		loginButton.setBounds(76, 327, 119, 30);
 		frame.getContentPane().add(loginButton);
 		
 		JButton resetButton = new JButton("Reset");
@@ -105,7 +116,7 @@ public class LoginPage {
 			}
 		});
 		resetButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		resetButton.setBounds(237, 292, 119, 30);
+		resetButton.setBounds(235, 327, 119, 30);
 		frame.getContentPane().add(resetButton);
 		
 		JButton exitButton = new JButton("Exit");
@@ -115,7 +126,18 @@ public class LoginPage {
 			}
 		});
 		exitButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		exitButton.setBounds(395, 292, 119, 30);
+		exitButton.setBounds(394, 327, 119, 30);
 		frame.getContentPane().add(exitButton);
+		
+		JButton newAccount = new JButton("Create New Account");
+		newAccount.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		newAccount.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		newAccount.setBounds(187, 379, 217, 30);
+		frame.getContentPane().add(newAccount);
+		
+		
 	}
 }
