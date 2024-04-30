@@ -41,7 +41,7 @@ public class LoginPage {
 	 */
 	public LoginPage() {
 		initialize();
-		loginDatabase.ConnectLoginDatabase("@PantsBobby25361337");
+		loginDatabase.ConnectLoginDatabase("password");
 	}
 
 	/**

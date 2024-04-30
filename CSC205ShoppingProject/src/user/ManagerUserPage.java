@@ -70,7 +70,7 @@ public class ManagerUserPage {
 		usersTable.getColumnModel().getColumn(3).setPreferredWidth(60);
 		usersTable.getColumnModel().getColumn(6).setPreferredWidth(100);
 		usersTable.getColumnModel().getColumn(7).setPreferredWidth(100);
-		loginDatabase.ConnectLoginDatabase("@PantsBobby25361337");
+		loginDatabase.ConnectLoginDatabase("password");
 		updateTable();
 	}
 	
