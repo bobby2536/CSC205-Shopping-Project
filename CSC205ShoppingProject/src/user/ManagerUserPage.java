@@ -26,6 +26,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
+import javax.swing.JTextPane;
+import java.awt.Color;
 
 public class ManagerUserPage {
 
@@ -40,6 +42,7 @@ public class ManagerUserPage {
 	private JTextField addressTextField;
 	private JTextField lastNameTextField;
 	private JTextField firstNameTextField;
+	private JLabel messageLabel;
 
 	/**
 	 * Launch the application.
@@ -81,6 +84,7 @@ public class ManagerUserPage {
 		frame.getContentPane().add(scrollPane);
 		
 		usersTable = new JTable();
+		usersTable.setEnabled(false);
 		scrollPane.setViewportView(usersTable);
 		usersTable.setModel(new DefaultTableModel(
 			new Object[][] {
@@ -112,11 +116,34 @@ public class ManagerUserPage {
 		frame.getContentPane().add(usernameComboBox);
 		
 		JButton deleteAccountButton = new JButton("Delete Account");
+		deleteAccountButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				loginDatabase.deleteUser((String) usernameComboBox.getSelectedItem());
+				updateData();
+				messageLabel.setText("Account Deleted! ");
+			}
+		});
 		deleteAccountButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		deleteAccountButton.setBounds(515, 586, 217, 30);
 		frame.getContentPane().add(deleteAccountButton);
 		
 		JButton updateInfoButton = new JButton("Update Information");
+		updateInfoButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String currentUsername = (String) usernameComboBox.getSelectedItem();
+				String username = usernameTextField.getText();
+				String password = passwordTextField.getText();
+				String type = (String) typeComboBox.getSelectedItem();
+				String firstname = firstNameTextField.getText();
+				String lastname = lastNameTextField.getText();
+				String address = addressTextField.getText();
+				String email = emailTextField.getText();
+				
+				loginDatabase.updateData(currentUsername, username, password, type, firstname, lastname, email, address);
+				updateData();
+				messageLabel.setText("Information Updated! ");
+			}
+		});
 		updateInfoButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		updateInfoButton.setBounds(516, 546, 217, 30);
 		frame.getContentPane().add(updateInfoButton);
@@ -207,6 +234,13 @@ public class ManagerUserPage {
 		firstNameLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		firstNameLabel.setBounds(187, 442, 251, 13);
 		frame.getContentPane().add(firstNameLabel);
+		
+		messageLabel = new JLabel("");
+		messageLabel.setForeground(new Color(0, 255, 0));
+		messageLabel.setHorizontalAlignment(SwingConstants.TRAILING);
+		messageLabel.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		messageLabel.setBounds(448, 437, 284, 57);
+		frame.getContentPane().add(messageLabel);
 		usersTable.getColumnModel().getColumn(0).setPreferredWidth(26);
 		usersTable.getColumnModel().getColumn(0).setMinWidth(16);
 		usersTable.getColumnModel().getColumn(3).setPreferredWidth(60);
@@ -234,7 +268,9 @@ public class ManagerUserPage {
 				String[] tbData = {id, username, password, type, firstname, lastname, email, address};			
 				tblModel.addRow(tbData);
 				usernameComboBox.addItem(username);
-			}		
+			}
+			
+			messageLabel.setText("");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -253,16 +289,10 @@ public class ManagerUserPage {
 				addressTextField.setText(rs.getString("address"));
 				firstNameTextField.setText(rs.getString("firstname"));
 				lastNameTextField.setText(rs.getString("lastname"));
-				if(rs.getString("type").equals("Manager")) {
-					typeComboBox.setSelectedItem("Manager");
-				}
-				else if(rs.getString("type").equals("Employee")) {
-					typeComboBox.setSelectedItem("Employee");
-				}
-				else if(rs.getString("type").equals("Customer")) {
-					typeComboBox.setSelectedItem("Customer");
-				}
+				typeComboBox.setSelectedItem(loginDatabase.getUserType((String) usernameComboBox.getSelectedItem()));
+				
 			}
+			messageLabel.setText("");
 					
 			
 		}

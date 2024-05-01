@@ -7,8 +7,8 @@ public class LoginDriver {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		database.ConnectLoginDatabase("@PantsBobby25361337");
+		database.AddLoginDatabase("Test", "Test", "Customer", "Test", "tea", "tea", "tea");
 		
-		database.exportRowData("boss");
 		database.CloseDatabase();
 	}
 

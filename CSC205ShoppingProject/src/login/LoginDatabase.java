@@ -208,4 +208,21 @@ public class LoginDatabase {
 		}
 	}
 	
+	public void deleteUser (String username) {
+		try {
+			c.setAutoCommit(false);
+			stmt = c.createStatement();
+			String sql = "DELETE FROM LOGIN WHERE username = " + "'" + username + "';";
+			stmt.executeLargeUpdate(sql);			
+			stmt.close();
+			c.commit();
+			System.out.println("Just deleted element in the login table");
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getClass().getName()+ ": " + e.getMessage());
+			System.exit(0);
+		}
+	}
+	
 }
