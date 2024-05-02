@@ -1,4 +1,4 @@
-package user;
+package users;
 
 import java.awt.EventQueue;
 
