@@ -74,6 +74,7 @@ public class ManagerUserPage {
 	private void initialize() {
 		loginDatabase.ConnectLoginDatabase("@PantsBobby25361337");
 		frame = new JFrame();
+		frame.setEnabled(false);
 		frame.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 20));
 		frame.setBounds(100, 100, 757, 703);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -100,10 +101,10 @@ public class ManagerUserPage {
 		titleLabel.setBounds(163, 10, 406, 57);
 		frame.getContentPane().add(titleLabel);
 		
-		JButton newAccountButton = new JButton("Create New Account");
-		newAccountButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		newAccountButton.setBounds(516, 626, 217, 30);
-		frame.getContentPane().add(newAccountButton);
+		JButton newItem = new JButton("Create New Account");
+		newItem.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		newItem.setBounds(516, 626, 217, 30);
+		frame.getContentPane().add(newItem);
 	
 		usernameComboBox = new JComboBox<String>();
 		usernameComboBox.addActionListener(new ActionListener() {
