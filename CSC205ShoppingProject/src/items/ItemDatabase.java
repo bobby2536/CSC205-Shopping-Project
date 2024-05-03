@@ -66,8 +66,8 @@ public class ItemDatabase {
 			String sql = "INSERT INTO ITEMS (NAME, PRICE, QUANTITY, DESCRIPTION)"
 					+ "VALUES ("
 					+ "'" + name + "'" + ',' 
-					+ "'" + price + "'" + ',' 
-					+ "'" + quantity + "'" + ',' 
+					+ price + ',' 
+					+ quantity + ',' 
 					+ "'" + description + "'" + ");";
 			stmt.executeLargeUpdate(sql);
 			stmt.close();
@@ -119,7 +119,7 @@ public class ItemDatabase {
 		}
 	}
 	
-	public void updateData(String currentItem, String name, double price, int quantity, String description) {
+	public void updateItem(String currentItem, String name, double price, int quantity, String description) {
 		try {
 			c.setAutoCommit(false);
 			stmt = c.createStatement();
@@ -170,4 +170,5 @@ public class ItemDatabase {
 			return data;
 		}
 	}
+
 }

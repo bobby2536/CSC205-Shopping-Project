@@ -171,16 +171,16 @@ public class CreateNewAccountPage {
 		JButton createAccountButton = new JButton("Create Account");
 		createAccountButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {				
-				String username = usernameTextField.getText().trim();
-				String password = String.valueOf(passwordTextField.getPassword()).trim();
-				String retypePassword = String.valueOf(retypePasswordTextField.getPassword()).trim();
+				String username = usernameTextField.getText();
+				String password = String.valueOf(passwordTextField.getPassword());
+				String retypePassword = String.valueOf(retypePasswordTextField.getPassword());
 				String type = (String) typeComboBox.getSelectedItem();
-				String firstname = firstNameTextField.getText().trim();
-				String lastname = lastNameTextField.getText().trim();
-				String address = addressTextField.getText().trim();
-				String email = emailTextField.getText().trim();
+				String firstname = firstNameTextField.getText();
+				String lastname = lastNameTextField.getText();
+				String address = addressTextField.getText();
+				String email = emailTextField.getText();
 				
-				if (username.isEmpty() || password.isEmpty() || retypePassword.isEmpty() || firstname.isEmpty() || lastname.isEmpty() || address.isEmpty() || username.isEmpty() || email.isEmpty()) {
+				if (username.isBlank() || password.isBlank() || retypePassword.isBlank() || firstname.isBlank() || lastname.isBlank() || address.isBlank() || username.isBlank() || email.isBlank()) {
 					messageLabel.setForeground(Color.red);
 					messageLabel.setText("Please Fill Out All Fields");
 				}

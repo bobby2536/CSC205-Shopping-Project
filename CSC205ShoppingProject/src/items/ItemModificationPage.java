@@ -19,6 +19,7 @@ import java.sql.ResultSet;
 import java.awt.event.ActionEvent;
 
 import items.ItemDatabase;
+import javax.swing.JTextArea;
 
 public class ItemModificationPage {
 
@@ -30,7 +31,7 @@ public class ItemModificationPage {
 	private JComboBox<String> itemNameComboBox;
 	private JLabel messageLabel;
 	private ItemDatabase itemDatabase = new ItemDatabase();
-	private JTextPane descriptionTextPane;
+	private JTextArea descriptionTextArea;
 
 	/**
 	 * Launch the application.
@@ -142,7 +143,7 @@ public class ItemModificationPage {
 		messageLabel.setHorizontalAlignment(SwingConstants.TRAILING);
 		messageLabel.setForeground(Color.GREEN);
 		messageLabel.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		messageLabel.setBounds(447, 437, 284, 57);
+		messageLabel.setBounds(359, 437, 372, 57);
 		frame.getContentPane().add(messageLabel);
 		
 		quantityTextField = new JTextField();
@@ -150,11 +151,17 @@ public class ItemModificationPage {
 		quantityTextField.setBounds(9, 607, 153, 19);
 		frame.getContentPane().add(quantityTextField);
 		
-		descriptionTextPane = new JTextPane();
-		descriptionTextPane.setBounds(186, 508, 251, 118);
-		frame.getContentPane().add(descriptionTextPane);
+		descriptionTextArea = new JTextArea();
+		descriptionTextArea.setLineWrap(true);
+		descriptionTextArea.setBounds(186, 508, 251, 118);
+		frame.getContentPane().add(descriptionTextArea);
 		
 		JButton resetButton = new JButton("Reset");
+		resetButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				resetTextFields();
+			}
+		});
 		resetButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		resetButton.setBounds(514, 506, 217, 30);
 		frame.getContentPane().add(resetButton);
@@ -162,6 +169,23 @@ public class ItemModificationPage {
 		JButton updateItemButton = new JButton("Update Item");
 		updateItemButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String currentName = (String) itemNameComboBox.getSelectedItem();
+				String name = nameTextField.getText();
+				String description = descriptionTextArea.getText();
+				try {
+					double price = Double.parseDouble(priceTextField.getText());
+					int quantity = Integer.parseInt(quantityTextField.getText());
+					itemDatabase.updateItem(currentName, name, price, quantity, description);
+					updateData();
+					messageLabel.setText("Updated Item!");
+					messageLabel.setForeground(Color.green);
+				}
+				catch (NumberFormatException e1){
+					messageLabel.setText("Please Enter Numeric Amounts");
+					messageLabel.setForeground(Color.red);
+				}
+				
+				
 			}
 		});
 		updateItemButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -169,6 +193,14 @@ public class ItemModificationPage {
 		frame.getContentPane().add(updateItemButton);
 		
 		JButton deleteItemButton = new JButton("Delete Item");
+		deleteItemButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				itemDatabase.DeleteItem((String) itemNameComboBox.getSelectedItem());
+				updateData();
+				messageLabel.setText("Deleted Item!");
+				messageLabel.setForeground(Color.green);
+			}
+		});
 		deleteItemButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		deleteItemButton.setBounds(514, 586, 217, 30);
 		frame.getContentPane().add(deleteItemButton);
@@ -215,7 +247,7 @@ public class ItemModificationPage {
 				nameTextField.setText(rs.getString("name"));
 				priceTextField.setText(String.valueOf(rs.getDouble("price")));
 				quantityTextField.setText(String.valueOf(rs.getInt("quantity")));
-				descriptionTextPane.setText(rs.getString("description"));
+				descriptionTextArea.setText(rs.getString("description"));
 			}
 			messageLabel.setText("");
 		}
